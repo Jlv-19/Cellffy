@@ -9,30 +9,10 @@ const optionsEl = document.getElementById("options");
 const resultEl = document.getElementById("result");
 const questionContainer = document.getElementById("question-container");
 
-// Timer display
 const timerEl = document.createElement("p");
 timerEl.id = "timer";
 questionContainer.prepend(timerEl);
 
-// ✅ Fetch player count on load
-fetchGlobalPlayerCount();
-
-// ✅ Start the quiz
-showQuestion();
-
-// 🔁 Auto-advance after delay
-function autoNextQuestion() {
-  setTimeout(() => {
-    currentQuestion++;
-    if (currentQuestion < questions.length) {
-      showQuestion();
-    } else {
-      showResult();
-    }
-  }, 3000); // 3-second delay after answer or timeout
-}
-
-// 🕒 Start countdown for each question
 function startTimer() {
   timeLeft = 30;
   timerEl.textContent = `Time left: ${timeLeft}s`;
@@ -49,7 +29,17 @@ function startTimer() {
   }, 1000);
 }
 
-// 📄 Display a question and its options
+function autoNextQuestion() {
+  setTimeout(() => {
+    currentQuestion++;
+    if (currentQuestion < questions.length) {
+      showQuestion();
+    } else {
+      showResult();
+    }
+  }, 3000);
+}
+
 function showQuestion() {
   clearInterval(timer);
   startTimer();
@@ -72,7 +62,6 @@ function showQuestion() {
   });
 }
 
-// ✅ Check selected answer and show correct one
 function checkAnswer(selectedIndex, selectedBtn) {
   clearInterval(timer);
 
@@ -87,29 +76,20 @@ function checkAnswer(selectedIndex, selectedBtn) {
   }
 
   lockOptions();
-  autoNextQuestion(); // 👈 move to next automatically
+  autoNextQuestion();
 }
 
-// 🔒 Disable all buttons
 function lockOptions() {
   optionButtons.forEach(btn => btn.disabled = true);
 }
 
-// 🏁 Final result screen
 function showResult() {
   clearInterval(timer);
   questionContainer.style.display = "none";
   resultEl.style.display = "block";
-
-  resultEl.innerHTML = `
-    <h2>You scored ${score} out of ${questions.length}</h2>
-    <p id="player-count">Updating total players...</p>
-  `;
-
-  updateGlobalPlayerCount();
+  resultEl.innerHTML = `<h2>You scored ${score} out of ${questions.length}</h2>`;
 }
 
-// 🔢 Get current total player count
 function fetchGlobalPlayerCount() {
   const countRef = firebase.database().ref('playerCount');
   countRef.once('value')
@@ -123,7 +103,6 @@ function fetchGlobalPlayerCount() {
     });
 }
 
-// 🔼 Increment global player count after quiz ends
 function updateGlobalPlayerCount() {
   const countRef = firebase.database().ref('playerCount');
 
@@ -135,3 +114,6 @@ function updateGlobalPlayerCount() {
     })
     .catch(err => console.error("Failed to update player count:", err));
 }
+
+fetchGlobalPlayerCount();
+showQuestion();
