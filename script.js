@@ -42,7 +42,9 @@ function showResult() {
   resultEl.innerHTML = `<h2>You scored ${score} out of ${questions.length}</h2>`;
 }
 
+const nextBtn = document.getElementById("next-btn");
 nextBtn.addEventListener("click", showQuestion);
 
 // Start quiz
 showQuestion();
+
