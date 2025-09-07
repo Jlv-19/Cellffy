@@ -6,24 +6,33 @@ let optionButtons = [];
 
 const questionEl = document.getElementById("question");
 const optionsEl = document.getElementById("options");
-const nextBtn = document.getElementById("next-btn");
 const resultEl = document.getElementById("result");
 const questionContainer = document.getElementById("question-container");
 
-// Create timer element
+// Timer display
 const timerEl = document.createElement("p");
 timerEl.id = "timer";
 questionContainer.prepend(timerEl);
 
-nextBtn.addEventListener("click", () => {
-  currentQuestion++;
-  if (currentQuestion < questions.length) {
-    showQuestion();
-  } else {
-    showResult();
-  }
-});
+// ✅ Fetch player count on load
+fetchGlobalPlayerCount();
 
+// ✅ Start the quiz
+showQuestion();
+
+// 🔁 Auto-advance after delay
+function autoNextQuestion() {
+  setTimeout(() => {
+    currentQuestion++;
+    if (currentQuestion < questions.length) {
+      showQuestion();
+    } else {
+      showResult();
+    }
+  }, 3000); // 3-second delay after answer or timeout
+}
+
+// 🕒 Start countdown for each question
 function startTimer() {
   timeLeft = 30;
   timerEl.textContent = `Time left: ${timeLeft}s`;
@@ -35,20 +44,19 @@ function startTimer() {
     if (timeLeft <= 0) {
       clearInterval(timer);
       lockOptions();
-      nextBtn.style.display = "block";
+      autoNextQuestion();
     }
   }, 1000);
 }
 
+// 📄 Display a question and its options
 function showQuestion() {
   clearInterval(timer);
   startTimer();
 
-  nextBtn.style.display = "none";
   const q = questions[currentQuestion];
   questionEl.textContent = q.question;
   optionsEl.innerHTML = "";
-
   optionButtons = [];
 
   q.options.forEach((option, i) => {
@@ -64,6 +72,7 @@ function showQuestion() {
   });
 }
 
+// ✅ Check selected answer and show correct one
 function checkAnswer(selectedIndex, selectedBtn) {
   clearInterval(timer);
 
@@ -78,21 +87,29 @@ function checkAnswer(selectedIndex, selectedBtn) {
   }
 
   lockOptions();
-  nextBtn.style.display = "block";
+  autoNextQuestion(); // 👈 move to next automatically
 }
 
+// 🔒 Disable all buttons
 function lockOptions() {
   optionButtons.forEach(btn => btn.disabled = true);
 }
 
+// 🏁 Final result screen
 function showResult() {
   clearInterval(timer);
   questionContainer.style.display = "none";
-  nextBtn.style.display = "none";
   resultEl.style.display = "block";
-  resultEl.innerHTML = `<h2>You scored ${score} out of ${questions.length}</h2>`;
+
+  resultEl.innerHTML = `
+    <h2>You scored ${score} out of ${questions.length}</h2>
+    <p id="player-count">Updating total players...</p>
+  `;
+
+  updateGlobalPlayerCount();
 }
 
+// 🔢 Get current total player count
 function fetchGlobalPlayerCount() {
   const countRef = firebase.database().ref('playerCount');
   countRef.once('value')
@@ -106,9 +123,10 @@ function fetchGlobalPlayerCount() {
     });
 }
 
+// 🔼 Increment global player count after quiz ends
 function updateGlobalPlayerCount() {
   const countRef = firebase.database().ref('playerCount');
-  
+
   countRef.transaction(current => (current || 0) + 1)
     .then(() => countRef.once('value'))
     .then(snapshot => {
@@ -117,9 +135,3 @@ function updateGlobalPlayerCount() {
     })
     .catch(err => console.error("Failed to update player count:", err));
 }
-
-// Start quiz
-showQuestion();
-fetchGlobalPlayerCount(); // 👈 This will show count on load
-
-
