@@ -11,43 +11,39 @@
     <h1>MCQ Quiz</h1>
     <p id="player-count">Loading total players...</p>
     <div id="question-container">
+      <p id="timer">Time left: 30s</p>
       <p id="question"></p>
       <ul id="options"></ul>
     </div>
-    <button id="next-btn">Next</button>
     <div id="result" style="display: none;"></div>
   </div>
 
+  <!-- Firebase v8 SDK (for simplicity) -->
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+
+  <script>
+    // Firebase Config
+    const firebaseConfig = {
+      apiKey: "AIzaSyCVWweySpXBryYXkIB_ICmp_qvipj4Zi40",
+      authDomain: "cellffy-live-tracker.firebaseapp.com",
+      databaseURL: "https://cellffy-live-tracker-default-rtdb.firebaseio.com",
+      projectId: "cellffy-live-tracker",
+      storageBucket: "cellffy-live-tracker.appspot.com",
+      messagingSenderId: "998082281935",
+      appId: "1:998082281935:web:cc9c96d98a16ec386292ba",
+      measurementId: "G-T6L3B9WVV6"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
+  </script>
+
   <script src="questions.js"></script>
   <script src="script.js"></script>
-  
-<!-- Firebase App (core SDK) -->
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
-
-<script>
-  const firebaseConfig = {
-  apiKey: "AIzaSyCVWweySpXBryYXkIB_ICmp_qvipj4Zi40",
-  authDomain: "cellffy-live-tracker.firebaseapp.com",
-  projectId: "cellffy-live-tracker",
-  databaseURL: "https://cellffy-live-tracker-default-rtdb.firebaseio.com",
-  storageBucket: "cellffy-live-tracker.appspot.com",
-  messagingSenderId: "998082281935",
-  appId: "1:998082281935:web:cc9c96d98a16ec386292ba",
-  measurementId: "G-T6L3B9WVV6"
-};
-
-firebase.initializeApp(firebaseConfig);
-const database = firebase.database();
-
-
-  firebase.initializeApp(firebaseConfig);
-  const database = firebase.database();
-</script>
-
-
 </body>
 </html>
+
 
 
 
