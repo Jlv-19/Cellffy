@@ -1,3 +1,18 @@
+// Firebase config (keep this secret if deployed)
+const firebaseConfig = {
+  apiKey: "AIzaSyCVWweySpXBryYXkIB_ICmp_qvipj4Zi40",
+  authDomain: "cellffy-live-tracker.firebaseapp.com",
+  databaseURL: "https://cellffy-live-tracker-default-rtdb.firebaseio.com",
+  projectId: "cellffy-live-tracker",
+  storageBucket: "cellffy-live-tracker.appspot.com",
+  messagingSenderId: "998082281935",
+  appId: "1:998082281935:web:cc9c96d98a16ec386292ba",
+  measurementId: "G-T6L3B9WVV6"
+};
+
+firebase.initializeApp(firebaseConfig);
+const database = firebase.database();
+
 let currentQuestion = 0;
 let score = 0;
 let timer;
@@ -7,11 +22,8 @@ let optionButtons = [];
 const questionEl = document.getElementById("question");
 const optionsEl = document.getElementById("options");
 const resultEl = document.getElementById("result");
+const timerEl = document.getElementById("timer");
 const questionContainer = document.getElementById("question-container");
-
-const timerEl = document.createElement("p");
-timerEl.id = "timer";
-questionContainer.prepend(timerEl);
 
 function startTimer() {
   timeLeft = 30;
@@ -29,17 +41,6 @@ function startTimer() {
   }, 1000);
 }
 
-function autoNextQuestion() {
-  setTimeout(() => {
-    currentQuestion++;
-    if (currentQuestion < questions.length) {
-      showQuestion();
-    } else {
-      showResult();
-    }
-  }, 3000);
-}
-
 function showQuestion() {
   clearInterval(timer);
   startTimer();
@@ -53,8 +54,6 @@ function showQuestion() {
     const li = document.createElement("li");
     const btn = document.createElement("button");
     btn.textContent = option;
-    btn.disabled = false;
-    btn.classList.remove("correct", "wrong");
     btn.onclick = () => checkAnswer(i, btn);
     li.appendChild(btn);
     optionsEl.appendChild(li);
@@ -64,7 +63,6 @@ function showQuestion() {
 
 function checkAnswer(selectedIndex, selectedBtn) {
   clearInterval(timer);
-
   const correctIndex = questions[currentQuestion].answer;
 
   if (selectedIndex === correctIndex) {
@@ -83,37 +81,42 @@ function lockOptions() {
   optionButtons.forEach(btn => btn.disabled = true);
 }
 
+function autoNextQuestion() {
+  setTimeout(() => {
+    currentQuestion++;
+    if (currentQuestion < questions.length) {
+      showQuestion();
+    } else {
+      showResult();
+    }
+  }, 3000);
+}
+
 function showResult() {
-  clearInterval(timer);
   questionContainer.style.display = "none";
   resultEl.style.display = "block";
   resultEl.innerHTML = `<h2>You scored ${score} out of ${questions.length}</h2>`;
+  updatePlayerCount();
 }
 
-function fetchGlobalPlayerCount() {
-  const countRef = firebase.database().ref('playerCount');
-  countRef.once('value')
-    .then(snapshot => {
-      const count = snapshot.val() || 0;
-      document.getElementById('player-count').textContent = `Total players so far: ${count}`;
-    })
-    .catch(err => {
-      console.error("Failed to fetch player count:", err);
-      document.getElementById('player-count').textContent = `Unable to load player count`;
-    });
+function fetchPlayerCount() {
+  const countRef = database.ref("playerCount");
+  countRef.once("value").then(snapshot => {
+    const count = snapshot.val() || 0;
+    document.getElementById("player-count").textContent = `Total players so far: ${count}`;
+  }).catch(err => {
+    console.error(err);
+    document.getElementById("player-count").textContent = `Unable to load player count.`;
+  });
 }
 
-function updateGlobalPlayerCount() {
-  const countRef = firebase.database().ref('playerCount');
-
+function updatePlayerCount() {
+  const countRef = database.ref("playerCount");
   countRef.transaction(current => (current || 0) + 1)
-    .then(() => countRef.once('value'))
-    .then(snapshot => {
-      const count = snapshot.val();
-      document.getElementById('player-count').textContent = `Total players so far: ${count}`;
-    })
-    .catch(err => console.error("Failed to update player count:", err));
+    .then(() => fetchPlayerCount())
+    .catch(console.error);
 }
 
-fetchGlobalPlayerCount();
+// Start
+fetchPlayerCount();
 showQuestion();
