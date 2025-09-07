@@ -93,5 +93,33 @@ function showResult() {
   resultEl.innerHTML = `<h2>You scored ${score} out of ${questions.length}</h2>`;
 }
 
+function fetchGlobalPlayerCount() {
+  const countRef = firebase.database().ref('playerCount');
+  countRef.once('value')
+    .then(snapshot => {
+      const count = snapshot.val() || 0;
+      document.getElementById('player-count').textContent = `Total players so far: ${count}`;
+    })
+    .catch(err => {
+      console.error("Failed to fetch player count:", err);
+      document.getElementById('player-count').textContent = `Unable to load player count`;
+    });
+}
+
+function updateGlobalPlayerCount() {
+  const countRef = firebase.database().ref('playerCount');
+  
+  countRef.transaction(current => (current || 0) + 1)
+    .then(() => countRef.once('value'))
+    .then(snapshot => {
+      const count = snapshot.val();
+      document.getElementById('player-count').textContent = `Total players so far: ${count}`;
+    })
+    .catch(err => console.error("Failed to update player count:", err));
+}
+
 // Start quiz
 showQuestion();
+fetchGlobalPlayerCount(); // 👈 This will show count on load
+
+
