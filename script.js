@@ -112,11 +112,22 @@ function fetchPlayerCount() {
 
 function updatePlayerCount() {
   const countRef = database.ref("playerCount");
-  countRef.transaction(current => (current || 0) + 1)
-    .then(() => fetchPlayerCount())
-    .catch(console.error);
+  countRef.transaction(current => {
+    return (current || 0) + 1;
+  }, (error, committed, snapshot) => {
+    if (error) {
+      console.error("Transaction failed:", error);
+    } else if (!committed) {
+      console.warn("Transaction was not committed");
+    } else {
+      const updatedCount = snapshot.val();
+      document.getElementById("player-count").textContent = `Total players so far: ${updatedCount}`;
+  });
+}
+
 }
 
 // Start
 fetchPlayerCount();
 showQuestion();
+
