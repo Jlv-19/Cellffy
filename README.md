@@ -1,3 +1,6 @@
+<b> V1.0 </b> 09-09-2025
+First Version launched
+
 V0.4 08-09-2025
 Rewritten all the codes
 Added timer 30 Sec
