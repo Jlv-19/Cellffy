@@ -1,14 +1,14 @@
 // Firebase config (keep this secret if deployed)
 const firebaseConfig = {
-  apiKey: "AIzaSyCVWweySpXBryYXkIB_ICmp_qvipj4Zi40",
-  authDomain: "cellffy-live-tracker.firebaseapp.com",
-  databaseURL: "https://cellffy-live-tracker-default-rtdb.firebaseio.com",
-  projectId: "cellffy-live-tracker",
-  storageBucket: "cellffy-live-tracker.appspot.com",
-  messagingSenderId: "998082281935",
-  appId: "1:998082281935:web:cc9c96d98a16ec386292ba",
-  measurementId: "G-T6L3B9WVV6"
-};
+    apiKey: "AIzaSyCVWweySpXBryYXkIB_ICmp_qvipj4Zi40",
+    authDomain: "cellffy-live-tracker.firebaseapp.com",
+    databaseURL: "https://cellffy-live-tracker-default-rtdb.firebaseio.com",
+    projectId: "cellffy-live-tracker",
+    storageBucket: "cellffy-live-tracker.firebasestorage.app",
+    messagingSenderId: "998082281935",
+    appId: "1:998082281935:web:cc9c96d98a16ec386292ba",
+    measurementId: "G-T6L3B9WVV6"
+  };
 
 firebase.initializeApp(firebaseConfig);
 const database = firebase.database();
@@ -130,4 +130,5 @@ function updatePlayerCount() {
 // Start
 fetchPlayerCount();
 showQuestion();
+
 
