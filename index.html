@@ -18,45 +18,12 @@
     <div id="result" style="display: none;"></div>
   </div>
 
-  <!-- Firebase v8 SDK (for simplicity) -->
+  <!-- ✅ Firebase v8 SDK -->
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
-  <script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.2.1/firebase-analytics.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
-
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
-  const firebaseConfig = {
-    apiKey: "AIzaSyCVWweySpXBryYXkIB_ICmp_qvipj4Zi40",
-    authDomain: "cellffy-live-tracker.firebaseapp.com",
-    databaseURL: "https://cellffy-live-tracker-default-rtdb.firebaseio.com",
-    projectId: "cellffy-live-tracker",
-    storageBucket: "cellffy-live-tracker.firebasestorage.app",
-    messagingSenderId: "998082281935",
-    appId: "1:998082281935:web:cc9c96d98a16ec386292ba",
-    measurementId: "G-T6L3B9WVV6"
-  };
-
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
-</script>
-
+  <!-- ✅ Your scripts (make sure questions.js exists and is correct) -->
   <script src="questions.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
