@@ -1,17 +1,25 @@
-// Firebase config (keep this secret if deployed)
+// ✅ Firebase config (keep this safe if adding more features later)
 const firebaseConfig = {
-    apiKey: "AIzaSyCVWweySpXBryYXkIB_ICmp_qvipj4Zi40",
-    authDomain: "cellffy-live-tracker.firebaseapp.com",
-    databaseURL: "https://cellffy-live-tracker-default-rtdb.firebaseio.com",
-    projectId: "cellffy-live-tracker",
-    storageBucket: "cellffy-live-tracker.firebasestorage.app",
-    messagingSenderId: "998082281935",
-    appId: "1:998082281935:web:cc9c96d98a16ec386292ba",
-    measurementId: "G-T6L3B9WVV6"
-  };
+  apiKey: "AIzaSyCVWweySpXBryYXkIB_ICmp_qvipj4Zi40",
+  authDomain: "cellffy-live-tracker.firebaseapp.com",
+  databaseURL: "https://cellffy-live-tracker-default-rtdb.firebaseio.com",
+  projectId: "cellffy-live-tracker",
+  storageBucket: "cellffy-live-tracker.appspot.com",
+  messagingSenderId: "998082281935",
+  appId: "1:998082281935:web:cc9c96d98a16ec386292ba",
+  measurementId: "G-T6L3B9WVV6"
+};
 
+// ✅ Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 const database = firebase.database();
+
+// DOM elements
+const questionEl = document.getElementById("question");
+const optionsEl = document.getElementById("options");
+const resultEl = document.getElementById("result");
+const timerEl = document.getElementById("timer");
+const questionContainer = document.getElementById("question-container");
 
 let currentQuestion = 0;
 let score = 0;
@@ -19,11 +27,11 @@ let timer;
 let timeLeft = 30;
 let optionButtons = [];
 
-const questionEl = document.getElementById("question");
-const optionsEl = document.getElementById("options");
-const resultEl = document.getElementById("result");
-const timerEl = document.getElementById("timer");
-const questionContainer = document.getElementById("question-container");
+// ✅ Start the quiz
+fetchPlayerCount();
+showQuestion();
+
+// ================= Functions ===================
 
 function startTimer() {
   timeLeft = 30;
@@ -101,13 +109,15 @@ function showResult() {
 
 function fetchPlayerCount() {
   const countRef = database.ref("playerCount");
-  countRef.once("value").then(snapshot => {
-    const count = snapshot.val() || 0;
-    document.getElementById("player-count").textContent = `Total players so far: ${count}`;
-  }).catch(err => {
-    console.error(err);
-    document.getElementById("player-count").textContent = `Unable to load player count.`;
-  });
+  countRef.once("value")
+    .then(snapshot => {
+      const count = snapshot.val() || 0;
+      document.getElementById("player-count").textContent = `Total players so far: ${count}`;
+    })
+    .catch(err => {
+      console.error(err);
+      document.getElementById("player-count").textContent = `Unable to load player count.`;
+    });
 }
 
 function updatePlayerCount() {
@@ -118,17 +128,10 @@ function updatePlayerCount() {
     if (error) {
       console.error("Transaction failed:", error);
     } else if (!committed) {
-      console.warn("Transaction was not committed");
+      console.warn("Transaction not committed.");
     } else {
       const updatedCount = snapshot.val();
       document.getElementById("player-count").textContent = `Total players so far: ${updatedCount}`;
+    }
   });
 }
-
-}
-
-// Start
-fetchPlayerCount();
-showQuestion();
-
-
