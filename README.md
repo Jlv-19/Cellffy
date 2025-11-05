@@ -1,3 +1,9 @@
+V2.0 05-11-2025
+Players can now enter their names
+Ranks are visible
+Leaderboard option added
+
+
 <b> V1.0 </b> 09-09-2025
 First Version launched
 
