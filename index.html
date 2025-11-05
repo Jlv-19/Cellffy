@@ -9,29 +9,30 @@
 <body>
   <div class="quiz-container">
     <h1>MCQ Quiz</h1>
-    <p id="player-count">Loading total players...</p>
-    <div id="question-container">
-      <!-- Player Name & Submit Button (hidden initially, shown at the end of quiz) -->
-<div id="playerInputArea" style="display:none; text-align:center; margin-top:20px;">
-  <input type="text" id="playerName" placeholder="Enter your name" style="padding:8px; font-size:16px;" />
-  <button id="submitScoreBtn" style="padding:8px 12px; font-size:16px;">Submit Score</button>
-</div>
 
+    <!-- Total players -->
+    <p id="player-count">Loading total players...</p>
+
+    <!-- Quiz Questions -->
+    <div id="question-container">
       <p id="timer">Time left: 30s</p>
       <p id="question"></p>
       <ul id="options"></ul>
     </div>
+
+    <!-- Result message (hidden initially) -->
     <div id="result" style="display: none;"></div>
+
+    <!-- Leaderboard (will be populated dynamically) -->
+    <div id="leaderboardArea"></div>
   </div>
 
   <!-- ✅ Firebase v8 SDK -->
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
-  <!-- ✅ Your scripts (make sure questions.js exists and is correct) -->
+  <!-- Quiz questions and main script -->
   <script src="questions.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
-
-
