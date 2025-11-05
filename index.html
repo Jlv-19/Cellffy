@@ -11,6 +11,12 @@
     <h1>MCQ Quiz</h1>
     <p id="player-count">Loading total players...</p>
     <div id="question-container">
+      <!-- Player Name & Submit Button (hidden initially, shown at the end of quiz) -->
+<div id="playerInputArea" style="display:none; text-align:center; margin-top:20px;">
+  <input type="text" id="playerName" placeholder="Enter your name" style="padding:8px; font-size:16px;" />
+  <button id="submitScoreBtn" style="padding:8px 12px; font-size:16px;">Submit Score</button>
+</div>
+
       <p id="timer">Time left: 30s</p>
       <p id="question"></p>
       <ul id="options"></ul>
@@ -27,4 +33,5 @@
   <script src="script.js"></script>
 </body>
 </html>
+
 
