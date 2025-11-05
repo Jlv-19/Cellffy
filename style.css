@@ -42,6 +42,11 @@ ul#options button {
   font-size: 1em;
   cursor: pointer;
   background-color: #f0f0f0;
+  transition: background 0.3s;
+}
+
+ul#options button:hover {
+  background-color: #ddd;
 }
 
 ul#options button.correct {
@@ -65,4 +70,37 @@ ul#options button.wrong {
   margin-top: 20px;
 }
 
+/* ================= Leaderboard Styles ================= */
+
+#leaderboardArea {
+  margin-top: 30px;
+}
+
+#leaderboardArea h2 {
+  text-align: center;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+#leaderboardArea table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+#leaderboardArea th, 
+#leaderboardArea td {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  text-align: left;
+}
+
+#leaderboardArea tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+#leaderboardArea tr.highlight {
+  background-color: #d1ffd1;
+  font-weight: bold;
+}
 
