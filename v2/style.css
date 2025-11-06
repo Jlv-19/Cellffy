@@ -1,0 +1,114 @@
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+}
+
+.quiz-container {
+  background: #fff;
+  padding: 20px 30px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 90%;
+  max-width: 600px;
+}
+
+h1 {
+  text-align: center;
+  color: #333;
+}
+
+#question {
+  font-size: 1.2em;
+  margin-bottom: 10px;
+}
+
+ul#options {
+  list-style: none;
+  padding: 0;
+}
+
+ul#options li {
+  margin: 10px 0;
+}
+
+ul#options button {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  font-size: 1em;
+  cursor: pointer;
+  background-color: #f0f0f0;
+  transition: background 0.3s;
+}
+
+ul#options button:hover {
+  background-color: #ddd;
+}
+
+ul#options button.correct {
+  background-color: #4caf50;
+  color: #fff;
+}
+
+ul#options button.wrong {
+  background-color: #f44336;
+  color: #fff;
+}
+
+#timer {
+  font-weight: bold;
+  color: #444;
+}
+
+#playerInputArea {
+  text-align: center;
+  margin-top: 20px;
+}
+
+#playerInputArea input {
+  padding: 8px;
+  font-size: 16px;
+  width: 70%;
+  max-width: 250px;
+  margin-bottom: 10px;
+}
+
+#playerInputArea button {
+  padding: 8px 12px;
+  font-size: 16px;
+  cursor: pointer;
+  background-color: #4caf50;
+  border: none;
+  color: white;
+  border-radius: 5px;
+}
+
+#leaderboardArea {
+  margin-top: 30px;
+}
+
+#leaderboardArea table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+#leaderboardArea th, 
+#leaderboardArea td {
+  padding: 8px 12px;
+  border: 1px solid #ccc;
+  text-align: left;
+}
+
+#leaderboardArea tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+#leaderboardArea tr.highlight {
+  background-color: #d1ffd1;
+  font-weight: bold;
+}
