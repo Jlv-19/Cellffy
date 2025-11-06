@@ -172,6 +172,14 @@ function showLeaderboard(currentPlayerName, currentPlayerScore) {
     });
 
     html += "</table>";
+    html += `
+  <div style="text-align:center; margin-top:20px;">
+    <button id="retakeBtn" style="padding:10px 20px; font-size:16px; background:#4caf50; color:white; border:none; border-radius:5px; cursor:pointer;">
+      🔁 Retake Quiz
+    </button>
+  </div>
+`;
+
     leaderboardArea.innerHTML = html;
     updatePlayerCount();
   });
@@ -194,4 +202,20 @@ function updatePlayerCount() {
         `Total players so far: ${snapshot.val()}`;
     }
   });
+}
+
+// Attach retake button functionality
+const retakeBtn = document.getElementById("retakeBtn");
+if (retakeBtn) {
+  retakeBtn.onclick = () => {
+    // Reset all variables
+    currentQuestion = 0;
+    score = 0;
+    totalTime = 0;
+    questionContainer.style.display = "block";
+    leaderboardArea.style.display = "none";
+    playerInputArea.style.display = "none";
+    document.getElementById("playerName").value = "";
+    showQuestion();
+  };
 }
