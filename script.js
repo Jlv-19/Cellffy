@@ -22,21 +22,56 @@ const timerEl = document.getElementById("timer");
 const questionContainer = document.getElementById("question-container");
 
 // --- Leaderboard input area (dynamically created)
-const playerInputArea = document.createElement("div");
-playerInputArea.id = "playerInputArea";
-playerInputArea.style = "display:none; text-align:center; margin-top:20px;";
-playerInputArea.innerHTML = `
-  <input type="text" id="playerName" placeholder="Enter your name" style="padding:8px; font-size:16px;" />
-  <button id="submitScoreBtn" style="padding:8px 12px; font-size:16px;">Submit Score</button>
-`;
-document.body.appendChild(playerInputArea);
+function showLeaderboard(currentPlayerName, currentPlayerScore) {
+  const leaderboardDiv = document.getElementById("leaderboardArea");
+  leaderboardDiv.style.display = "block"; // make it visible
 
-let currentQuestion = 0;
-let score = 0;
-let timer;
-let timeLeft = 30;
-let optionButtons = [];
-let totalTime = 0; // to track total time across questions
+  firebase.database().ref("players").once("value").then((snapshot) => {
+    if (!snapshot.exists()) {
+      leaderboardDiv.innerHTML = "<p>No players yet!</p>";
+      return;
+    }
+
+    const players = Object.values(snapshot.val());
+
+    // Sort by score descending, then time ascending
+    players.sort((a, b) => b.finalScore - a.finalScore || a.totalTimeTaken - b.totalTimeTaken);
+
+    // Assign rank
+    players.forEach((p, i) => p.rank = i + 1);
+
+    // Find current player
+    const current = players.find(p => p.name === currentPlayerName && p.finalScore === currentPlayerScore);
+
+    // Build leaderboard HTML
+    let html = `
+      <h2>Your Results</h2>
+      ${current ? `<p><strong>${current.name}</strong>, you ranked <strong>#${current.rank}</strong>!</p>
+      <p>Correct: ${current.correctAnswers} | Time: ${current.totalTimeTaken}s | Final Score: ${current.finalScore}</p>` : ""}
+      <h2>Top 10 Players</h2>
+      <table style="margin:auto; border-collapse:collapse; text-align:center;">
+        <tr style="background:#eee;"><th>Rank</th><th>Name</th><th>Correct</th><th>Time (s)</th></tr>
+    `;
+
+    players.slice(0, 10).forEach(p => {
+      const highlight = (current && p.name === current.name && p.finalScore === current.finalScore) ? "background-color:#d1ffd1;font-weight:bold;" : "";
+      html += `
+        <tr style="border:1px solid #ccc; ${highlight}">
+          <td>${p.rank}</td>
+          <td>${p.name}</td>
+          <td>${p.correctAnswers}</td>
+          <td>${p.totalTimeTaken}</td>
+        </tr>
+      `;
+    });
+    html += `</table>`;
+
+    leaderboardDiv.innerHTML = html;
+
+    // ✅ Update player count after leaderboard shows
+    updatePlayerCount();
+  });
+}
 
 // ✅ Start the quiz
 fetchPlayerCount();
@@ -227,4 +262,5 @@ function updatePlayerCount() {
       else document.getElementById("player-count").textContent = `Total players so far: ${snapshot.val()}`;
     });
 }
+
 
