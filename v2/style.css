@@ -112,3 +112,17 @@ ul#options button.wrong {
   background-color: #d1ffd1;
   font-weight: bold;
 }
+.dev-footer {
+    margin-top: 30px;
+    text-align: center;
+    font-size: 0.9rem;
+    color: #666;
+    padding: 10px 0;
+    opacity: 0.8;
+    transition: 0.3s ease;
+}
+
+.dev-footer:hover {
+    opacity: 1;
+    color: #333;
+}
