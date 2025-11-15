@@ -145,6 +145,23 @@ const allQuestions = [
     answer: 0
   },
 
+  {
+    question: "Votes of Members is mentioned in ?.",
+    options: ["S.20", "S.21", "S.19", "S.18"],
+    answer: 0
+  },
+
+  {
+    question: "A Member admitted within _______ days prior to the election shall not have right to vote",
+    options: ["30", "45", "60", "90"],
+    answer: 2
+  },
+
+  {
+    question: "In the case of a tie ________ can exercise a second vote",
+    options: ["President", "Chairman", "Secretary", "CEO"],
+    answer: 1
+  },
   // ... add the rest of your questions here
 ];
 
